@@ -5,6 +5,21 @@
 netcoreDBHelper不是ORM框架，只是对.netcore中数据库操作的封装。封装的意义在于使用DBHelper进行数据库操作时，将操作代码和具体的数据库隔离开，在未来如果需要更换数据库便不需要修改操作代码，只需简单的替换数据提供者和数据源配置信息。
 
 
+## Install
+
+### 依赖安装
+#### Package Manager
+Install-Package CodeM.Common.DbHelper -Version 1.0.0
+
+#### .NET CLI
+dotnet add package CodeM.Common.DbHelper --version 1.0.0
+
+#### PackageReference
+<PackageReference Include="CodeM.Common.DbHelper" Version="1.0.0" />
+
+#### Paket CLI
+paket add CodeM.Common.DbHelper --version 1.0.0
+
 
 ## 方法
 
