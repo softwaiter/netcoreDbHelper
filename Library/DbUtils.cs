@@ -317,6 +317,10 @@ namespace CodeM.Common.DbHelper
             try
             {
                 result = command.ExecuteNonQuery();
+                if (result < 0)
+                {
+                    result = 0;
+                }
             }
             catch (DbException err)
             {
@@ -375,6 +379,10 @@ namespace CodeM.Common.DbHelper
             try
             {
                 result = command.ExecuteNonQuery();
+                if (result < 0)
+                {
+                    result = 0;
+                }
             }
             catch
             {

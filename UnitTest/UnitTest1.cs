@@ -6,9 +6,12 @@ using System.IO;
 
 namespace Tests
 {
-    public class Tests
+    /// <summary>
+    /// SqliteÊı¾İ¿â²âÊÔ
+    /// </summary>
+    public class UnitTest1
     {
-        public Tests()
+        public UnitTest1()
         {
             if (File.Exists("test.db"))
             {
