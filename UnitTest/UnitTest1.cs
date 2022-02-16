@@ -4,7 +4,7 @@ using System;
 using System.Data.Common;
 using System.IO;
 
-namespace Tests
+namespace UnitTest
 {
     /// <summary>
     /// SqliteÊı¾İ¿â²âÊÔ
