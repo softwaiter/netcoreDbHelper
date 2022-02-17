@@ -4,8 +4,18 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>CodeM.Common.DbHelper</AssemblyName>
     <RootNamespace>CodeM.Common.DbHelper</RootNamespace>
-    <Version>1.0.1</Version>
+    <Version>1.1.0</Version>
     <Authors>softwaiter</Authors>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/softwaiter/netcoreDbHelper</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
