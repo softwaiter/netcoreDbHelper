@@ -19,7 +19,7 @@ namespace UnitTest
         [Test]
         public void Order1_CreateTable()
         {
-            string sql = "Create Table test(id int not null primary key, name varchar(64), age int, address varchar(255))";
+            string sql = "Create Table test(id int not null primary key, name varchar(64), age int comment('年龄'), address varchar(255) comment('地址'))";
             int result = DbUtils.ExecuteNonQuery("sqlserver_test", sql);
             Assert.IsTrue(result == 0);
         }
