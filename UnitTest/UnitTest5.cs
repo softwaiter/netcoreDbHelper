@@ -20,12 +20,16 @@ namespace UnitTest
         [Test]
         public void Order1_CreateTable()
         {
-            string sql = "Create Table test(id int not null primary key, name varchar(64), age int, address varchar(255))";
+            string sql = @"begin
+Create Table test(id int not null primary key, name varchar(64), age int, address varchar(255));
+COMMENT ON COLUMN test.name IS '名称';
+end;
+";
             int result = DbUtils.ExecuteNonQuery("oracle_test", sql);
             Assert.IsTrue(result == 0);
-            string comment = "COMMENT ON COLUMN test.name IS '名称'";
-            result = DbUtils.ExecuteNonQuery("oracle_test", comment);
-            Assert.IsTrue(result == 0);
+            //string comment = "COMMENT ON COLUMN test.name IS '名称'";
+            //result = DbUtils.ExecuteNonQuery("oracle_test", comment);
+            //Assert.IsTrue(result == 0);
         }
 
         [Test]
