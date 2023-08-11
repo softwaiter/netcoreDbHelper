@@ -102,7 +102,11 @@ namespace CodeM.Common.DbHelper
         #endregion
 
         #region 创建各种数据对象
-        private static int sCommandTimeout = 3000;  //单位：毫秒
+
+        /// <summary>
+        /// 默认执行命令超时时间，单位：秒
+        /// </summary>
+        public static int DefaultCommandTimeout { get; set; } = 30;
 
         /// <summary>
         /// 根据数据源名称创建并返回对应数据库连接对象
@@ -125,7 +129,7 @@ namespace CodeM.Common.DbHelper
         /// <returns></returns>
         public static DbCommand CreateCommand(string datasourceName)
         {
-            return CreateCommand(datasourceName, sCommandTimeout);
+            return CreateCommand(datasourceName, DefaultCommandTimeout);
         }
 
         public static DbCommand CreateCommand(string datasourceName, int timeout)
@@ -143,7 +147,7 @@ namespace CodeM.Common.DbHelper
         /// <returns></returns>
         public static DbCommand CreateCommand(DbConnection connection)
         {
-            return CreateCommand(connection, sCommandTimeout);
+            return CreateCommand(connection, DefaultCommandTimeout);
         }
 
         public static DbCommand CreateCommand(DbConnection connection, int timeout)
@@ -318,15 +322,6 @@ namespace CodeM.Common.DbHelper
             {
                 result = command.ExecuteNonQuery();
             }
-            catch (DbException err)
-            {
-                command.Parameters.Clear();
-                if (needCloseConnection)
-                {
-                    connection.Close();
-                }
-                throw err;
-            }
             finally
             {
                 command.Parameters.Clear();
@@ -375,15 +370,6 @@ namespace CodeM.Common.DbHelper
             try
             {
                 result = command.ExecuteNonQuery();
-            }
-            catch
-            {
-                command.Parameters.Clear();
-                if (needCloseConnection)
-                {
-                    transaction.Connection.Close();
-                }
-                throw;
             }
             finally
             {
@@ -445,15 +431,6 @@ namespace CodeM.Common.DbHelper
             {
                 result = command.ExecuteScalar();
             }
-            catch (DbException err)
-            {
-                command.Parameters.Clear();
-                if (needCloseConnection)
-                {
-                    connection.Close();
-                }
-                throw err;
-            }
             finally
             {
                 command.Parameters.Clear();
@@ -502,15 +479,6 @@ namespace CodeM.Common.DbHelper
             try
             {
                 result = command.ExecuteScalar();
-            }
-            catch (DbException err)
-            {
-                command.Parameters.Clear();
-                if (needCloseConnection)
-                {
-                    transaction.Connection.Close();
-                }
-                throw err;
             }
             finally
             {
@@ -578,14 +546,13 @@ namespace CodeM.Common.DbHelper
                     result = command.ExecuteReader();
                 }
             }
-            catch (DbException err)
+            catch
             {
-                command.Parameters.Clear();
                 if (needCloseConnection)
                 {
                     connection.Close();
                 }
-                throw err;
+                throw;
             }
             finally
             {
@@ -639,14 +606,13 @@ namespace CodeM.Common.DbHelper
                     result = command.ExecuteReader();
                 }
             }
-            catch (DbException err)
+            catch
             {
-                command.Parameters.Clear();
                 if (needCloseConnection)
                 {
                     transaction.Connection.Close();
                 }
-                throw err;
+                throw;
             }
             finally
             {
