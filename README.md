@@ -4,7 +4,7 @@
 ## 简介
 netcoreDBHelper不是ORM框架，只是对.netcore中数据库操作的封装。封装的意义在于使用DBHelper进行数据库操作时，将操作代码和具体的数据库隔离开，在未来如果需要更换数据库便不需要修改操作代码，只需简单的替换数据提供者和数据源配置信息。
 
-目前支持Sqlite、Sqlserver、Mysql、Oracle、PostgreSQL数据库，理论上只要实现了微软数据提供者接口的关系型数据库都能得到支持，各位可以自行尝试。
+目前支持Sqlite、Sqlserver、Mysql、Oracle、PostgreSQL、达梦数据库，理论上只要实现了微软数据提供者接口的关系型数据库都能得到支持，各位可以自行尝试。
 
 
 
@@ -13,22 +13,22 @@ netcoreDBHelper不是ORM框架，只是对.netcore中数据库操作的封装。
 ### 依赖安装
 #### Package Manager
 ```shell
-Install-Package CodeM.Common.DbHelper -Version 1.1.0
+Install-Package CodeM.Common.DbHelper -Version 1.1.10
 ```
 
 #### .NET CLI
 ```shell
-dotnet add package CodeM.Common.DbHelper --version 1.1.0
+dotnet add package CodeM.Common.DbHelper --version 1.1.10
 ```
 
 #### PackageReference
 ```xml
-<PackageReference Include="CodeM.Common.DbHelper" Version="1.1.0" />
+<PackageReference Include="CodeM.Common.DbHelper" Version="1.1.10" />
 ```
 
 #### Paket CLI
 ```shell
-paket add CodeM.Common.DbHelper --version 1.1.0
+paket add CodeM.Common.DbHelper --version 1.1.10
 ```
 
 
@@ -106,6 +106,21 @@ DbUtils.ExecuteNonQuery("postgres_test", "Insert Into User (id, name) Values(1, 
 
 string sql = "Select * From test Where id=1";
 DbDataReader dr = DbUtils.ExecuteDataReader("postgres_test", sql);
+```
+
+
+
+### 达梦数据库示例（需安装dmdbms.DmProvider程序包）
+
+```c#
+// 同一类型数据库只需注册一次
+DbUtils.RegisterDbProvider("dm", "Dm.DmClientFactory, DmProvider");
+DbUtils.AddDataSource("dm_test", "dm", "server=localhost;port=5236;schema=test;user=TEST;password=TEST123456");
+
+DbUtils.ExecuteNonQuery("dm_test", "Insert Into User (id, name) Values(1, 'wangxm')");
+
+string sql = "Select * From test Where id=1";
+DbDataReader dr = DbUtils.ExecuteDataReader("dm_test", sql);
 ```
 
 
