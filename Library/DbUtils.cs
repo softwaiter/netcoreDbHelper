@@ -321,6 +321,10 @@ namespace CodeM.Common.DbHelper
             try
             {
                 result = command.ExecuteNonQuery();
+                if (result < 0)
+                {
+                    result = 0;
+                }
             }
             finally
             {
@@ -370,6 +374,10 @@ namespace CodeM.Common.DbHelper
             try
             {
                 result = command.ExecuteNonQuery();
+                if (result < 0)
+                {
+                    result = 0;
+                }
             }
             finally
             {

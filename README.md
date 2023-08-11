@@ -4,29 +4,110 @@
 ## 简介
 netcoreDBHelper不是ORM框架，只是对.netcore中数据库操作的封装。封装的意义在于使用DBHelper进行数据库操作时，将操作代码和具体的数据库隔离开，在未来如果需要更换数据库便不需要修改操作代码，只需简单的替换数据提供者和数据源配置信息。
 
+目前支持Sqlite、Sqlserver、Mysql、Oracle、PostgreSQL数据库，理论上只要实现了微软数据提供者接口的关系型数据库都能得到支持，各位可以自行尝试。
+
+
 
 ## Install
 
 ### 依赖安装
 #### Package Manager
 ```shell
-Install-Package CodeM.Common.DbHelper -Version 1.0.0
+Install-Package CodeM.Common.DbHelper -Version 1.1.0
 ```
 
 #### .NET CLI
 ```shell
-dotnet add package CodeM.Common.DbHelper --version 1.0.0
+dotnet add package CodeM.Common.DbHelper --version 1.1.0
 ```
 
 #### PackageReference
 ```xml
-<PackageReference Include="CodeM.Common.DbHelper" Version="1.0.0" />
+<PackageReference Include="CodeM.Common.DbHelper" Version="1.1.0" />
 ```
 
 #### Paket CLI
 ```shell
-paket add CodeM.Common.DbHelper --version 1.0.0
+paket add CodeM.Common.DbHelper --version 1.1.0
 ```
+
+
+
+## 代码示例
+
+### Sqlite示例（需安装System.Data.SQLite程序包）
+```c#
+// 同一类型数据库只需注册一次
+DbUtils.RegisterDbProvider("sqlite", "System.Data.SQLite.SQLiteFactory, System.Data.SQLite");
+DbUtils.AddDataSource("sqlite_test", "sqlite", "DataSource=test.db;Version=3;");
+
+DbUtils.ExecuteNonQuery("sqlite_test", "Insert Into User (id, name) Values(1, 'wangxm')");
+
+string sql = "Select * From test Where id=1";
+DbDataReader dr = DbUtils.ExecuteDataReader("sqlite_test", sql);
+```
+
+
+
+### Mysql示例（需安装MySql.Data程序包）
+
+```c#
+// 同一类型数据库只需注册一次
+DbUtils.RegisterDbProvider("mysql", "MySql.Data.MySqlClient.MySqlClientFactory, MySql.Data");
+DbUtils.AddDataSource("mysql_test", "mysql", "Server=localhost;Database=test; User=root;Password=root;");
+
+DbUtils.ExecuteNonQuery("mysql_test", "Insert Into User (id, name) Values(1, 'wangxm')");
+
+string sql = "Select * From test Where id=1";
+DbDataReader dr = DbUtils.ExecuteDataReader("mysql_test", sql);
+```
+
+
+
+### Sqlserver示例（需安装Microsoft.Data.SqlClient程序包）
+
+```c#
+// 同一类型数据库只需注册一次
+DbUtils.RegisterDbProvider("sqlserver", "Microsoft.Data.SqlClient.SqlClientFactory, Microsoft.Data.SqlClient");
+DbUtils.AddDataSource("sqlserver_test", "sqlserver", "Data Source=localhost;Database=test;User Id=sa;Password=sa123;Encrypt=no;");
+
+DbUtils.ExecuteNonQuery("sqlserver_test", "Insert Into User (id, name) Values(1, 'wangxm')");
+
+string sql = "Select * From test Where id=1";
+DbDataReader dr = DbUtils.ExecuteDataReader("sqlserver_test", sql);
+```
+
+
+
+### Oracle示例（需安装Oracle.ManagedDataAccess.Core程序包）
+
+```c#
+// 同一类型数据库只需注册一次
+DbUtils.RegisterDbProvider("oracle", "Oracle.ManagedDataAccess.Client.OracleClientFactory, Oracle.ManagedDataAccess");
+string connString = "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST = 127.0.0.1)(PORT = 1521)))(CONNECT_DATA = (SERVICE_NAME = orcl)));User Id = system; Password = orcl123";
+DbUtils.AddDataSource("oracle_test", "oracle", connString);
+
+DbUtils.ExecuteNonQuery("oracle_test", "Insert Into User (id, name) Values(1, 'wangxm')");
+
+string sql = "Select * From test Where id=1";
+DbDataReader dr = DbUtils.ExecuteDataReader("oracle_test", sql);
+```
+
+
+
+### PostgreSQL示例（需安装Npgsql程序包）
+
+```c#
+// 同一类型数据库只需注册一次
+DbUtils.RegisterDbProvider("postgres", "Npgsql.NpgsqlFactory, Npgsql");
+DbUtils.AddDataSource("postgres_test", "postgres", "Host=localhost;Database=test;User Id=postgres;Password=postgres;");
+
+DbUtils.ExecuteNonQuery("postgres_test", "Insert Into User (id, name) Values(1, 'wangxm')");
+
+string sql = "Select * From test Where id=1";
+DbDataReader dr = DbUtils.ExecuteDataReader("postgres_test", sql);
+```
+
 
 
 ## 方法
@@ -503,11 +584,3 @@ commandText: 数据库命令。
 commandParams: 数据库命令参数。
 #### 返回：
 数据读取器，DbDataReader对象
-
-## 代码示例
-```
-DbUtils.RegisterDbProvider("mysql", "MySql.Data.MySqlClient.MySqlClientFactory, MySql.Data");
-DbUtils.AddDataSource("test", "mysql", "Server=localhost;Database=test; User=root;Password=root;");
-
-DbUtils.ExecuteNonQuery("test", "Insert Into User (id, name) Values(1, 'wangxm')");
-```

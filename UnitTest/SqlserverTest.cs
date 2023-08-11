@@ -1,37 +1,34 @@
-using CodeM.Common.DbHelper;
+Ôªøusing CodeM.Common.DbHelper;
 using NUnit.Framework;
 using System;
 using System.Data.Common;
-using System.IO;
 
-namespace Tests
+namespace UnitTest
 {
-    public class Tests
+    /// <summary>
+    /// SqlServerÊï∞ÊçÆÂ∫ìÊµãËØï
+    /// </summary>
+    public class SqlserverTest
     {
-        public Tests()
+        public SqlserverTest()
         {
-            if (File.Exists("test.db"))
-            {
-                File.Delete("test.db");
-            }
-
-            DbUtils.RegisterDbProvider("sqlite", "System.Data.SQLite.SQLiteFactory, System.Data.SQLite");
-            DbUtils.AddDataSource("sqlite_test", "sqlite", "DataSource=test.db;Version=3;");
+            DbUtils.RegisterDbProvider("sqlserver", "Microsoft.Data.SqlClient.SqlClientFactory, Microsoft.Data.SqlClient");
+            DbUtils.AddDataSource("sqlserver_test", "sqlserver", "Data Source=localhost;Database=test;User Id=sa;Password=sa123;Encrypt=no;");
         }
 
         [Test]
         public void Order1_CreateTable()
         {
             string sql = "Create Table test(id int not null primary key, name varchar(64), age int, address varchar(255))";
-            int result = DbUtils.ExecuteNonQuery("sqlite_test", sql);
+            int result = DbUtils.ExecuteNonQuery("sqlserver_test", sql);
             Assert.IsTrue(result == 0);
         }
 
         [Test]
         public void Order2_InsertRecord()
         {
-            string sql = "Insert Into test (id, name, age, address) Values(1, 'wangxm', 18, '∫”±±±£∂®')";
-            int result = DbUtils.ExecuteNonQuery("sqlite_test", sql);
+            string sql = "Insert Into test (id, name, age, address) Values(1, 'wangxm', 18, 'Ê≤≥Âåó‰øùÂÆö')";
+            int result = DbUtils.ExecuteNonQuery("sqlserver_test", sql);
             Assert.IsTrue(result == 1);
         }
 
@@ -40,13 +37,13 @@ namespace Tests
         {
             try
             {
-                string sql = "Insert Into test (id, name, age, address) Values(1, 'wangxm', 18, '∫”±±±£∂®')";
-                int result = DbUtils.ExecuteNonQuery("sqlite_test", sql);
+                string sql = "Insert Into test (id, name, age, address) Values(1, 'wangxm', 18, 'Ê≤≥Âåó‰øùÂÆö')";
+                int result = DbUtils.ExecuteNonQuery("sqlserver_test", sql);
                 Assert.Fail("Insert Error.");
             }
             catch (Exception e)
             {
-                Assert.IsTrue(e.Message.Contains("UNIQUE"));
+                Assert.IsTrue(e.Message.Contains("ÈáçÂ§ç"));
             }
         }
 
@@ -54,7 +51,7 @@ namespace Tests
         public void Order4_QueryRecord()
         {
             string sql = "Select * From test Where id=1";
-            DbDataReader dr = DbUtils.ExecuteDataReader("sqlite_test", sql);
+            DbDataReader dr = DbUtils.ExecuteDataReader("sqlserver_test", sql);
             Assert.IsTrue(dr.HasRows);
             Assert.IsTrue(dr.Read());
             string name = dr.GetString(1);
@@ -66,7 +63,7 @@ namespace Tests
         public void Order5_DropTable()
         {
             string sql = "Drop Table test";
-            int result = DbUtils.ExecuteNonQuery("sqlite_test", sql);
+            int result = DbUtils.ExecuteNonQuery("sqlserver_test", sql);
             Assert.IsTrue(result == 0);
         }
     }
