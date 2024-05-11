@@ -8,27 +8,35 @@ netcoreDBHelper不是ORM框架，只是对.netcore中数据库操作的封装。
 
 
 
+## 版本
+
+**.NetCore3.1**：2.0.0之前的版本全部基于.netcore3.1开发；后续所有变更在netcore3.1分支进行。
+<br>
+**.Net8.0**：从2.0.0开始之后的版本，全部基于.net8开发；后续所有变更在master分支进行。
+
+
+
 ## Install
 
 ### 依赖安装
 #### Package Manager
 ```shell
-Install-Package CodeM.Common.DbHelper -Version 1.1.10
+Install-Package CodeM.Common.DbHelper -Version 2.0.0
 ```
 
 #### .NET CLI
 ```shell
-dotnet add package CodeM.Common.DbHelper --version 1.1.10
+dotnet add package CodeM.Common.DbHelper --version 2.0.0
 ```
 
 #### PackageReference
 ```xml
-<PackageReference Include="CodeM.Common.DbHelper" Version="1.1.10" />
+<PackageReference Include="CodeM.Common.DbHelper" Version="2.0.0" />
 ```
 
 #### Paket CLI
 ```shell
-paket add CodeM.Common.DbHelper --version 1.1.10
+paket add CodeM.Common.DbHelper --version 2.0.0
 ```
 
 
